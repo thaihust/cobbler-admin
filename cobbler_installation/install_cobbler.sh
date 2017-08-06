@@ -34,7 +34,7 @@ sed -i "s/dhcp-range=192.168.1.5,192.168.1.200/dhcp-range=${DHCP_START},${DHCP_E
 sed -i "s/range dynamic-bootp        192.168.1.100 192.168.1.254;/range dynamic-bootp        ${DHCP_START} ${DHCP_END};/g" ${DHCP_TEMP}
 sed -i "s/disable\s\{1,\}= yes/disable                 = no/g" ${XINETD}
 
-echo "### restart services and config iptables rules"
+echo "### Restart services and config iptables rules ###"
 systemctl enable dnsmasq
 systemctl enable tftp
 systemctl enable httpd
@@ -63,9 +63,9 @@ iptables -A INPUT -i lo -j ACCEPT
 iptables-save
 /usr/libexec/iptables/iptables.init save
 
-echo "Downloading CenOS iso..."
+echo "### Downloading CenOS iso... ###"
 curl -fSL http://centos-hn.viettelidc.com.vn/7/isos/x86_64/CentOS-7-x86_64-Minimal-1611.iso -o ~/CentOS-7-x86_64-Minimal-1611.iso
-echo "Import iso to cobbler"
+echo "### Import iso to cobbler ###"
 mkdir -p /mnt/iso
 mount -t iso9660 -o loop ~/CentOS-7-x86_64-Minimal-1611.iso /mnt/iso
 cobbler import --name=CentOS-7.1 --arch=x86_64 --path=/mnt/iso
