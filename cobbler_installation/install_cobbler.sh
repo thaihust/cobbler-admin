@@ -50,6 +50,7 @@ sleep 3
 systemctl restart xinetd
 cobbler get-loaders
 systemctl restart cobblerd 
+sleep 3
 cobbler sync
 
 iptables -D INPUT -j REJECT --reject-with icmp-host-prohibited
