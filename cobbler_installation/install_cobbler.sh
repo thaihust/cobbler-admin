@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source env
+source ./env
 
 echo "#### Install essential packages and back up configuration ####"
 yum update -y
