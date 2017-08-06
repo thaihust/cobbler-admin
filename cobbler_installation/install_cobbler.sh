@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source ./env
+CURR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source ${CURR_DIR}/env
 
 echo "#### Install essential packages and back up configuration ####"
 yum update -y
@@ -43,9 +44,9 @@ systemctl disable firewalld
 systemctl enable iptables
 
 systemctl start iptables
-systemctl start cobblerd 
 systemctl restart httpd
 systemctl restart cobblerd
+sleep 3
 systemctl restart xinetd
 cobbler get-loaders
 systemctl restart cobblerd 
