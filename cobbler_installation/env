@@ -1,0 +1,10 @@
+export COBBLER_IP=10.10.0.210
+export COBBLER_SETTINGS=/etc/cobbler/settings
+export COBBLER_MODULES=/etc/cobbler/modules.conf
+export DNS_TEMP=/etc/cobbler/dnsmasq.template
+export DHCP_TEMP=/etc/cobbler/dhcp.template
+export XINETD=/etc/xinetd.d/tftp
+export DHCP_START=10.10.0.50
+export DHCP_END=10.10.0.99
+export DEFAULT_OLD_ENCRYPT="\$1\$mF86/UHC\$WvcIcX2t6crBz2onWxyac." # plain text: cobbler
+export DEFAULT_NEW_PASS="cloud2017"
