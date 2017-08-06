@@ -19,8 +19,8 @@ cat ${DHCP_TEMP}.orig | egrep -v "^$|^#" > ${DHCP_TEMP}
 cat ${XINETD}.orig | egrep -v "^$|^#" > ${XINETD}
 
 echo "#### Config cobbler and dependencies components ####"
-DEFAULT_NEW_ENCRYPT=$(openssl passwd -1 ${DEFAULT_NEW_PASS})
-sed -i "s|${DEFAULT_OLD_ENCRYPT}|${DEFAULT_NEW_ENCRYPT}|g" ${COBBLER_SETTINGS}
+# DEFAULT_NEW_ENCRYPT=$(openssl passwd -1 ${DEFAULT_NEW_PASS})
+# sed -i "s|${DEFAULT_OLD_ENCRYPT}|${DEFAULT_NEW_ENCRYPT}|g" ${COBBLER_SETTINGS}
 sed -i "s/manage_dhcp: 0/manage_dhcp: 1/g" ${COBBLER_SETTINGS}
 sed -i "s/manage_dns: 0/manage_dns: 1/g" ${COBBLER_SETTINGS}
 sed -i "s/pxe_just_once: 0/pxe_just_once: 1/g" ${COBBLER_SETTINGS}
