@@ -1,0 +1,21 @@
+---
+
+cobbler_settings: /etc/cobbler/settings
+cobbler_modules: /etc/cobbler/modules.conf
+dns_temp: /etc/cobbler/dnsmasq.template
+dhcp_temp: /etc/cobbler/dhcp.template
+xinetd: /etc/xinetd.d/tftp
+dhcp_start: 10.10.0.50
+dhcp_end: 10.10.0.99
+dns_module: manage_dnsmasq
+dhcp_module: manage_dnsmasq
+disable: no
+manage_dhcp: 1
+manage_dns: 1
+pxe_just_once: 1
+server: 10.10.0.210
+next_server: 10.10.0.210
+
+centos_url: http://centos-hn.viettelidc.com.vn/7/isos/x86_64/CentOS-7-x86_64-Minimal-1611.iso
+snippet_path: /var/lib/cobbler/snippets
+sample_kickstart_path: /var/lib/cobbler/kickstarts

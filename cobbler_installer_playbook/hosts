@@ -1,0 +1,5 @@
+[cobbler]
+localhost
+
+[target]
+localhost   ansible_connection=local

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+echo "### Downloading CenOS iso... ###"
+curl -fSL {{ centos_url }} -o ~/CentOS-7-x86_64-Minimal-1611.iso
+mkdir -p /mnt/iso
+mount -t iso9660 -o loop ~/CentOS-7-x86_64-Minimal-1611.iso /mnt/iso
+cobbler import --name=CentOS-7.1 --arch=x86_64 --path=/mnt/iso
+
+echo "### Config snippets ###"
+ssh-keygen -t rsa -N "" -f ~/.ssh/cobbler-key
+touch {{ snippet_path }}/publickey_root
+cat << EOF > {{ snippet_path }}/publickey_root
+cd /root
+mkdir --mode=700 .ssh
+cat >> .ssh/authorized_keys << "PUBLIC_KEY"
+$(cat ~/.ssh/cobbler-key.pub)
+PUBLIC_KEY
+chmod 600 .ssh/authorized_keys
+EOF
+
+echo "### Config kickstarts ###"
+cp {{ sample_kickstart_path }}/sample_end.ks {{ sample_kickstart_path }}/sample_end.ks.orig
+sed -i "s/\$SNIPPET('kickstart_done')/\
+\$SNIPPET('publickey_root') \\
+\$SNIPPET('kickstart_done')/g" {{ sample_kickstart_path }}/sample_end.ks
+
+cobbler sync

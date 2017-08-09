@@ -1,0 +1,23 @@
+---
+
+cobbler_packages: 
+    - cobbler
+    - cobbler-web 
+    - dnsmasq
+    - syslinux
+    - pykickstart
+    - xinetd
+    - net-tools
+    - iptables-services
+    - debmirror
+    - byobu
+    - crudini
+
+cobbler_services:
+    - dnsmasq
+    - httpd
+    - cobblerd
+    - xinetd
+    - iptables
+
+...   

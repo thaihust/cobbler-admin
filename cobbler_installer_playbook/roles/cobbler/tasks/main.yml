@@ -1,0 +1,72 @@
+---
+
+- name: Update system
+  yum: name=* state=latest
+
+- name: Install epel
+  yum: name={{ item }} state=installed
+  with_items: epel-release 
+      
+- name: Install cobbler and dependencies
+  yum: name={{ item }} state=installed
+  with_items:
+   - cobbler 
+   - cobbler-web 
+   - dnsmasq 
+   - syslinux 
+   - pykickstart 
+   - xinetd 
+   - net-tools 
+   - iptables-services 
+   - debmirror 
+   - byobu 
+   - crudini 
+
+- name: Configure DHCP server
+  template: src=dhcp.template.j2 dest=/etc/cobbler/dhcp.template backup=yes
+
+- name: Configure DNS server
+  template: src=dnsmasq.template.j2 dest=/etc/cobbler/dnsmasq.template backup=yes
+
+- name: Config cobbler modules
+  template: src=modules.conf.j2 dest=/etc/cobbler/modules.conf backup=yes
+
+- name: Config cobbler settings
+  template: src=settings.j2 dest=/etc/cobbler/settings backup=yes
+
+- name: Config TFTP server
+  template: src=tftp.j2 dest=/etc/xinetd.d/tftp backup=yes
+
+- name: Enable services
+  service: name={{ item }} state=restarted enabled=yes
+  with_items: 
+   - dnsmasq
+   - httpd
+   - cobblerd
+   - xinetd
+   - iptables
+
+- name: Disable firewalld
+  service: name={{ item }} state=stopped enabled=no
+  with_items: firewalld
+
+- name: Get additional boot loaders
+  command: cobbler get-loaders && systemctl restart cobblerd
+
+- name: Cobbler sync configuration
+  command: cobbler sync
+
+- name: Copy iptables rules
+  copy: src=iptables-rules.sh dest=/tmp/iptables-rules.sh mode=0755
+
+- name: Set iptables rules
+  shell: /tmp/iptables-rules.sh 
+
+- name: Coppy post installation file
+  template: src=cobbler_post_cnf.sh.j2 dest=/tmp/cobbler_post_cnf.sh mode=0755
+
+- name: Execute post installation
+  shell: /tmp/cobbler_post_cnf.sh
+
+- name: Edit kickstart sample
+  copy: src=sample_end.ks dest={{ sample_kickstart_path }}/sample_end.ks
