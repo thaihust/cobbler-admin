@@ -45,6 +45,7 @@
    - cobblerd
    - xinetd
    - iptables
+   - tftp
 
 - name: Disable firewalld
   service: name={{ item }} state=stopped enabled=no
