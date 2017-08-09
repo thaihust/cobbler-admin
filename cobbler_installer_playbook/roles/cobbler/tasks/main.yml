@@ -51,10 +51,13 @@
   with_items: firewalld
 
 - name: Get additional boot loaders
-  command: cobbler get-loaders && systemctl restart cobblerd
+  shell: |
+    cobbler get-loaders
+    systemctl restart cobblerd
 
 - name: Cobbler sync configuration
-  command: cobbler sync
+  shell: |
+    cobbler sync
 
 - name: Copy iptables rules
   copy: src=iptables-rules.sh dest=/tmp/iptables-rules.sh mode=0755
