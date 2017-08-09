@@ -73,6 +73,3 @@
 
 - name: Execute post installation
   shell: /tmp/cobbler_post_cnf.sh
-
-- name: Edit kickstart sample
-  copy: src=sample_end.ks dest={{ sample_kickstart_path }}/sample_end.ks
