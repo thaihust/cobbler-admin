@@ -55,6 +55,9 @@
     cobbler get-loaders
     systemctl restart cobblerd
 
+- pause:
+    seconds: 3
+
 - name: Cobbler sync configuration
   shell: |
     cobbler sync
